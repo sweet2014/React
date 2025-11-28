@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epic Eats Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff6b6b;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5252;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-menu button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu button:hover::after {
+            width: 80%;
+        }
+
+        .nav-menu button:hover {
+            color: #ff6b6b;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ff6b6b;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #ff6b6b;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-secondary:hover {
+            background: #fff;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+        }
+
+        .about {
+            padding: 8rem 2rem;
+            background: #fff;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: #ff6b6b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .image-icon {
+            font-size: 8rem;
+            opacity: 0.3;
+        }
+
+        .menu {
+            padding: 8rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .menu-description {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 1rem 2rem;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .category-btn:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .category-btn.active {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .menu-item {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .menu-item.active {
+            display: block;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+            gap: 1rem;
+        }
+
+        .menu-item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .menu-item-price {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .menu-item-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .reservations {
+            padding: 8rem 2rem;
+            background: #fff;
+        }
+
+        .reservations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .reservations-description {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .reservations-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .detail-icon {
+            font-size: 2rem;
+            min-width: 50px;
+        }
+
+        .detail-item h4 {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .detail-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .reservations-form-wrapper {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .reservations-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .submit-btn {
+            padding: 1.2rem;
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 3rem 2rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4caf50;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-message h3 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .contact {
+            padding: 8rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .contact-intro {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-links h3 {
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #ff6b6b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .contact-form-wrapper {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-icon:hover {
+            background: #ff6b6b;
+            transform: translateY(-3px);
+        }
+
+        .footer-links,
+        .footer-contact,
+        .footer-hours {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: left;
+            padding: 0;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer-links button:hover {
+            color: #ff6b6b;
+            padding-left: 5px;
+        }
+
+        .footer-contact li,
+        .footer-hours li {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .footer-hours strong {
+            color: #fff;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .footer-bottom-links span {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+
+            .reservations-container {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hamburger {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.3s ease;
+                padding: 2rem;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu button {
+                font-size: 1.5rem;
+            }
+
+            .image-placeholder {
+                height: 400px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="scrollToSection('home')">
+                <h1>Epic Eats</h1>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <button onclick="scrollToSection('home')">Home</button>
+                <button onclick="scrollToSection('about')">About</button>
+                <button onclick="scrollToSection('menu')">Menu</button>
+                <button onclick="scrollToSection('reservations')">Reservations</button>
+                <button onclick="scrollToSection('contact')">Contact</button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Epic Eats</h1>
+            <p class="hero-subtitle">Where Every Meal Becomes a Memory</p>
+            <p class="hero-description">
+                Experience culinary excellence with our chef-crafted dishes made from the finest ingredients
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('reservations')">Book a Table</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('menu')">View Menu</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-title">About Epic Eats</h2>
+                <p class="about-text">
+                    Founded in 2020, Epic Eats was born from a passion for creating extraordinary culinary
+                    experiences. Our talented chefs combine traditional techniques with modern innovation
+                    to craft dishes that delight all the senses.
+                </p>
+                <p class="about-text">
+                    We believe that great food brings people together. Every ingredient is carefully selected,
+                    every recipe meticulously perfected, and every dish prepared with love. From farm to table,
+                    we're committed to sustainability and supporting local producers.
+                </p>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">🍽️</div>
+                        <h3>Premium Quality</h3>
+                        <p>Only the finest ingredients make it to your plate</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👨‍🍳</div>
+                        <h3>Expert Chefs</h3>
+                        <p>Award-winning culinary team with decades of experience</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🌿</div>
+                        <h3>Farm Fresh</h3>
+                        <p>Locally sourced, organic ingredients delivered daily</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="image-placeholder">
+                    <div class="image-content">
+                        <span class="image-icon">🍴</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu">
+        <div class="menu-container">
+            <span class="section-label">Discover</span>
+            <h2 class="section-title">Our Menu</h2>
+            <p class="menu-description">
+                Explore our carefully curated selection of dishes, crafted with passion and the finest ingredients
+            </p>
+
+            <div class="menu-categories">
+                <button class="category-btn active" onclick="showCategory('starters')">Starters</button>
+                <button class="category-btn" onclick="showCategory('mains')">Main Courses</button>
+                <button class="category-btn" onclick="showCategory('desserts')">Desserts</button>
+                <button class="category-btn" onclick="showCategory('drinks')">Drinks</button>
+            </div>
+
+            <div class="menu-items" id="menuItems">
+                <div class="menu-item active" data-category="starters">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Bruschetta Al Pomodoro</h3>
+                        <span class="menu-item-price">$12</span>
+                    </div>
+                    <p class="menu-item-description">Toasted bread with fresh tomatoes, garlic, basil, and olive oil</p>
+                </div>
+                <div class="menu-item active" data-category="starters">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Crispy Calamari</h3>
+                        <span class="menu-item-price">$16</span>
+                    </div>
+                    <p class="menu-item-description">Lightly fried squid rings with spicy marinara sauce</p>
+                </div>
+                <div class="menu-item active" data-category="starters">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Caesar Salad</h3>
+                        <span class="menu-item-price">$14</span>
+                    </div>
+                    <p class="menu-item-description">Romaine lettuce, parmesan, croutons, classic Caesar dressing</p>
+                </div>
+                <div class="menu-item active" data-category="starters">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Soup of the Day</h3>
+                        <span class="menu-item-price">$10</span>
+                    </div>
+                    <p class="menu-item-description">Chef's special creation made fresh daily</p>
+                </div>
+
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Grilled Ribeye Steak</h3>
+                        <span class="menu-item-price">$42</span>
+                    </div>
+                    <p class="menu-item-description">12oz premium ribeye with roasted vegetables and garlic mashed potatoes</p>
+                </div>
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Pan-Seared Salmon</h3>
+                        <span class="menu-item-price">$32</span>
+                    </div>
+                    <p class="menu-item-description">Fresh Atlantic salmon with lemon butter sauce and asparagus</p>
+                </div>
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Mushroom Risotto</h3>
+                        <span class="menu-item-price">$28</span>
+                    </div>
+                    <p class="menu-item-description">Creamy arborio rice with wild mushrooms and truffle oil</p>
+                </div>
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Chicken Parmesan</h3>
+                        <span class="menu-item-price">$26</span>
+                    </div>
+                    <p class="menu-item-description">Breaded chicken breast with marinara, mozzarella, and pasta</p>
+                </div>
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Lobster Linguine</h3>
+                        <span class="menu-item-price">$38</span>
+                    </div>
+                    <p class="menu-item-description">Fresh lobster meat with garlic, white wine, and cherry tomatoes</p>
+                </div>
+                <div class="menu-item" data-category="mains">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Vegetable Curry</h3>
+                        <span class="menu-item-price">$24</span>
+                    </div>
+                    <p class="menu-item-description">Seasonal vegetables in aromatic coconut curry with basmati rice</p>
+                </div>
+
+                <div class="menu-item" data-category="desserts">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Tiramisu</h3>
+                        <span class="menu-item-price">$10</span>
+                    </div>
+                    <p class="menu-item-description">Classic Italian dessert with espresso-soaked ladyfingers</p>
+                </div>
+                <div class="menu-item" data-category="desserts">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Chocolate Lava Cake</h3>
+                        <span class="menu-item-price">$12</span>
+                    </div>
+                    <p class="menu-item-description">Warm chocolate cake with molten center and vanilla ice cream</p>
+                </div>
+                <div class="menu-item" data-category="desserts">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Crème Brûlée</h3>
+                        <span class="menu-item-price">$11</span>
+                    </div>
+                    <p class="menu-item-description">Vanilla custard with caramelized sugar crust</p>
+                </div>
+                <div class="menu-item" data-category="desserts">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">New York Cheesecake</h3>
+                        <span class="menu-item-price">$10</span>
+                    </div>
+                    <p class="menu-item-description">Rich and creamy cheesecake with berry compote</p>
+                </div>
+
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">House Red Wine</h3>
+                        <span class="menu-item-price">$9/glass</span>
+                    </div>
+                    <p class="menu-item-description">Full-bodied Cabernet Sauvignon</p>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">House White Wine</h3>
+                        <span class="menu-item-price">$9/glass</span>
+                    </div>
+                    <p class="menu-item-description">Crisp Chardonnay</p>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Craft Cocktails</h3>
+                        <span class="menu-item-price">$14</span>
+                    </div>
+                    <p class="menu-item-description">Ask about our specialty cocktail menu</p>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">Fresh Juice</h3>
+                        <span class="menu-item-price">$6</span>
+                    </div>
+                    <p class="menu-item-description">Orange, apple, or cranberry</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservations" class="reservations">
+        <div class="reservations-container">
+            <div class="reservations-info">
+                <span class="section-label">Book Your Table</span>
+                <h2 class="section-title">Make a Reservation</h2>
+                <p class="reservations-description">
+                    Join us for an unforgettable dining experience. Reserve your table today and let us take care of the rest.
+                </p>
+                <div class="reservations-details">
+                    <div class="detail-item">
+                        <div class="detail-icon">📍</div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>123 Culinary Street<br/>Gourmet City, GC 12345</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">🕒</div>
+                        <div>
+                            <h4>Opening Hours</h4>
+                            <p>Mon-Fri: 11:00 AM - 10:00 PM<br/>Sat-Sun: 10:00 AM - 11:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">📞</div>
+                        <div>
+                            <h4>Contact</h4>
+                            <p>Phone: (555) 123-4567<br/>Email: info@epiceats.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reservations-form-wrapper">
+                <div class="success-message" id="reservationSuccess">
+                    <div class="success-icon">✓</div>
+                    <h3>Reservation Confirmed!</h3>
+                    <p>We've received your reservation request and will contact you shortly to confirm.</p>
+                </div>
+                <form class="reservations-form" id="reservationForm" onsubmit="handleReservation(event)">
+                    <div class="form-group">
+                        <label for="res-name">Full Name</label>
+                        <input type="text" id="res-name" required placeholder="John Doe" />
+                    </div>
+                    <div class="form-group">
+                        <label for="res-email">Email Address</label>
+                        <input type="email" id="res-email" required placeholder="john@example.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="res-phone">Phone Number</label>
+                        <input type="tel" id="res-phone" required placeholder="(555) 123-4567" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="res-date">Date</label>
+                            <input type="date" id="res-date" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="res-time">Time</label>
+                            <input type="time" id="res-time" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-guests">Number of Guests</label>
+                        <select id="res-guests" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5 Guests</option>
+                            <option value="6">6 Guests</option>
+                            <option value="7">7 Guests</option>
+                            <option value="8">8+ Guests</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Reserve Table</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <div class="contact-header">
+                <span class="section-label">Get In Touch</span>
+                <h2 class="section-title">Contact Us</h2>
+                <p class="contact-intro">
+                    Have questions or special requests? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </p>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">📍</div>
+                        <h3>Visit Us</h3>
+                        <p>123 Culinary Street<br/>Gourmet City, GC 12345<br/>United States</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">📞</div>
+                        <h3>Call Us</h3>
+                        <p>Phone: (555) 123-4567<br/>Fax: (555) 123-4568<br/>Mon-Sun: 10AM - 11PM</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">✉️</div>
+                        <h3>Email Us</h3>
+                        <p>info@epiceats.com<br/>reservations@epiceats.com<br/>events@epiceats.com</p>
+                    </div>
+                    <div class="social-links">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">📘</a>
+                            <a href="#" class="social-icon">📷</a>
+                            <a href="#" class="social-icon">🐦</a>
+                            <a href="#" class="social-icon">📌</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <div class="success-message" id="contactSuccess">
+                        <div class="success-icon">✓</div>
+                        <h3>Message Sent!</h3>
+                        <p>Thank you for contacting us. We'll get back to you shortly.</p>
+                    </div>
+                    <form class="contact-form" id="contactForm" onsubmit="handleContact(event)">
+                        <div class="form-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" required placeholder="John Doe" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Your Email</label>
+                            <input type="email" id="contact-email" required placeholder="john@example.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Subject</label>
+                            <input type="text" id="contact-subject" required placeholder="What is this regarding?" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" required rows="5" placeholder="Tell us more..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">Epic Eats</h3>
+                    <p class="footer-description">
+                        Crafting unforgettable dining experiences since 2020. Where every meal tells a story.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-icon">📘</a>
+                        <a href="#" class="footer-social-icon">📷</a>
+                        <a href="#" class="footer-social-icon">🐦</a>
+                        <a href="#" class="footer-social-icon">📌</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><button onclick="scrollToSection('home')">Home</button></li>
+                        <li><button onclick="scrollToSection('about')">About</button></li>
+                        <li><button onclick="scrollToSection('menu')">Menu</button></li>
+                        <li><button onclick="scrollToSection('reservations')">Reservations</button></li>
+                        <li><button onclick="scrollToSection('contact')">Contact</button></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li>📍 123 Culinary Street</li>
+                        <li>Gourmet City, GC 12345</li>
+                        <li>📞 (555) 123-4567</li>
+                        <li>✉️ info@epiceats.com</li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <ul class="footer-hours">
+                        <li><strong>Monday - Friday</strong></li>
+                        <li>11:00 AM - 10:00 PM</li>
+                        <li><strong>Saturday - Sunday</strong></li>
+                        <li>10:00 AM - 11:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Epic Eats. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="#">Terms of Service</a>
+                    <span>•</span>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('navMenu').classList.remove('active');
+            }
+        }
+
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+
+        function showCategory(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (item.dataset.category === category) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function handleReservation(event) {
+            event.preventDefault();
+            const form = document.getElementById('reservationForm');
+            const successMsg = document.getElementById('reservationSuccess');
+
+            form.style.display = 'none';
+            successMsg.classList.add('show');
+
+            setTimeout(() => {
+                form.style.display = 'flex';
+                successMsg.classList.remove('show');
+                form.reset();
+            }, 3000);
+        }
+
+        function handleContact(event) {
+            event.preventDefault();
+            const form = document.getElementById('contactForm');
+            const successMsg = document.getElementById('contactSuccess');
+
+            form.style.display = 'none';
+            successMsg.classList.add('show');
+
+            setTimeout(() => {
+                form.style.display = 'flex';
+                successMsg.classList.remove('show');
+                form.reset();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
