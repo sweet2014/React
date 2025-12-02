@@ -1,0 +1,17 @@
+{
+  "name": "mega-sale-website",
+  "version": "1.0.0",
+  "description": "A modern sales website with countdown timer and shopping features",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=8080 --open=/index.html",
+    "dev": "npx live-server --port=8080"
+  },
+  "keywords": [
+    "sales",
+    "website",
+    "e-commerce"
+  ],
+  "author": "",
+  "license": "MIT"
+}

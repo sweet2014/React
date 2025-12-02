@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale - Limited Time Offers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">MEGA SALE</div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+                <button class="search-button" onclick="searchProducts()">🔍</button>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skincare">Skincare</a></li>
+                <li><a href="#homedecor">Home Decor</a></li>
+                <li class="dropdown">
+                    <a href="#clothing">Clothing ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#clothing">All Clothing</a></li>
+                        <li><a href="#clothing" onclick="scrollToSubsection('mens'); event.preventDefault();">Men's</a></li>
+                        <li><a href="#clothing" onclick="scrollToSubsection('womens'); event.preventDefault();">Women's</a></li>
+                        <li><a href="#clothing" onclick="scrollToSubsection('kids'); event.preventDefault();">Kids'</a></li>
+                    </ul>
+                </li>
+                <li><a href="#returns-orders">Returns & Orders</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="cart-icon">
+                    <span>🛒</span>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Results Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-results-container">
+            <div class="search-results-header">
+                <h3>Search Results</h3>
+                <button class="close-search" onclick="closeSearch()">✕</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">🔥 Flash Sale Event</h1>
+            <p class="hero-subtitle">Up to 70% OFF on Selected Items</p>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+            <button class="cta-button">Shop Now</button>
+        </div>
+    </section>
+
+    <!-- Skincare Section -->
+    <section class="category-module skincare-section" id="skincare">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="section-title">✨ Skincare Collection</h2>
+                <p class="category-subtitle">Nourish your skin with premium products</p>
+            </div>
+            <div class="deals-grid">
+                <div class="deal-card">
+                    <div class="badge">-65%</div>
+                    <div class="product-image">🧴</div>
+                    <h3 class="product-name">Vitamin C Serum</h3>
+                    <p class="product-description">Brightening serum for radiant skin</p>
+                    <div class="price-container">
+                        <span class="original-price">$89</span>
+                        <span class="sale-price">$31</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Vitamin C Serum', 31)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-50%</div>
+                    <div class="product-image">💧</div>
+                    <h3 class="product-name">Hyaluronic Acid Moisturizer</h3>
+                    <p class="product-description">Deep hydration for all skin types</p>
+                    <div class="price-container">
+                        <span class="original-price">$68</span>
+                        <span class="sale-price">$34</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Hyaluronic Acid Moisturizer', 34)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-60%</div>
+                    <div class="product-image">🌿</div>
+                    <h3 class="product-name">Green Tea Face Mask</h3>
+                    <p class="product-description">Detoxifying mask with antioxidants</p>
+                    <div class="price-container">
+                        <span class="original-price">$45</span>
+                        <span class="sale-price">$18</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Green Tea Face Mask', 18)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-55%</div>
+                    <div class="product-image">☀️</div>
+                    <h3 class="product-name">SPF 50 Sunscreen</h3>
+                    <p class="product-description">Broad spectrum UV protection</p>
+                    <div class="price-container">
+                        <span class="original-price">$42</span>
+                        <span class="sale-price">$19</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('SPF 50 Sunscreen', 19)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-70%</div>
+                    <div class="product-image">🌸</div>
+                    <h3 class="product-name">Rose Water Toner</h3>
+                    <p class="product-description">Refreshing and balancing toner</p>
+                    <div class="price-container">
+                        <span class="original-price">$35</span>
+                        <span class="sale-price">$11</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Rose Water Toner', 11)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-45%</div>
+                    <div class="product-image">🧖</div>
+                    <h3 class="product-name">Retinol Night Cream</h3>
+                    <p class="product-description">Anti-aging formula for overnight repair</p>
+                    <div class="price-container">
+                        <span class="original-price">$95</span>
+                        <span class="sale-price">$52</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Retinol Night Cream', 52)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Home Decor Section -->
+    <section class="category-module homedecor-section" id="homedecor">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="section-title">🏡 Home Decor Collection</h2>
+                <p class="category-subtitle">Transform your living space with style</p>
+            </div>
+            <div class="deals-grid">
+                <div class="deal-card">
+                    <div class="badge">-60%</div>
+                    <div class="product-image">🕯️</div>
+                    <h3 class="product-name">Luxury Scented Candle Set</h3>
+                    <p class="product-description">5 premium fragrances for your home</p>
+                    <div class="price-container">
+                        <span class="original-price">$79</span>
+                        <span class="sale-price">$32</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Luxury Scented Candle Set', 32)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-55%</div>
+                    <div class="product-image">🖼️</div>
+                    <h3 class="product-name">Modern Wall Art Canvas</h3>
+                    <p class="product-description">Abstract design for contemporary homes</p>
+                    <div class="price-container">
+                        <span class="original-price">$149</span>
+                        <span class="sale-price">$67</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Modern Wall Art Canvas', 67)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-50%</div>
+                    <div class="product-image">🛋️</div>
+                    <h3 class="product-name">Decorative Throw Pillows</h3>
+                    <p class="product-description">Set of 4 velvet cushion covers</p>
+                    <div class="price-container">
+                        <span class="original-price">$60</span>
+                        <span class="sale-price">$30</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Decorative Throw Pillows', 30)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-65%</div>
+                    <div class="product-image">💡</div>
+                    <h3 class="product-name">LED String Lights</h3>
+                    <p class="product-description">Warm ambiance lighting for any room</p>
+                    <div class="price-container">
+                        <span class="original-price">$45</span>
+                        <span class="sale-price">$16</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('LED String Lights', 16)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-58%</div>
+                    <div class="product-image">🪴</div>
+                    <h3 class="product-name">Ceramic Planter Set</h3>
+                    <p class="product-description">3 modern planters with drainage</p>
+                    <div class="price-container">
+                        <span class="original-price">$85</span>
+                        <span class="sale-price">$36</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Ceramic Planter Set', 36)">Add to Cart</button>
+                </div>
+
+                <div class="deal-card">
+                    <div class="badge">-48%</div>
+                    <div class="product-image">🪞</div>
+                    <h3 class="product-name">Round Wall Mirror</h3>
+                    <p class="product-description">Gold frame decorative mirror 24"</p>
+                    <div class="price-container">
+                        <span class="original-price">$120</span>
+                        <span class="sale-price">$62</span>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('Round Wall Mirror', 62)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clothing Section -->
+    <section class="category-module clothing-section" id="clothing">
+        <div class="container">
+            <div class="category-header">
+                <h2 class="section-title">👗 Clothing Collection</h2>
+                <p class="category-subtitle">Fashion that fits your style and budget</p>
+            </div>
+
+            <!-- Men's Clothing -->
+            <div class="clothing-subsection" id="mens">
+                <h3 class="subsection-title">👔 Men's Collection</h3>
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="badge">-60%</div>
+                        <div class="product-image">👔</div>
+                        <h3 class="product-name">Men's Casual Shirt</h3>
+                        <p class="product-description">Premium cotton button-down shirt</p>
+                        <div class="price-container">
+                            <span class="original-price">$65</span>
+                            <span class="sale-price">$26</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Men\'s Casual Shirt', 26)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-55%</div>
+                        <div class="product-image">👖</div>
+                        <h3 class="product-name">Slim Fit Denim Jeans</h3>
+                        <p class="product-description">Classic blue stretch denim</p>
+                        <div class="price-container">
+                            <span class="original-price">$89</span>
+                            <span class="sale-price">$40</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Slim Fit Denim Jeans', 40)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-50%</div>
+                        <div class="product-image">🧥</div>
+                        <h3 class="product-name">Men's Leather Jacket</h3>
+                        <p class="product-description">Genuine leather with zipper pockets</p>
+                        <div class="price-container">
+                            <span class="original-price">$299</span>
+                            <span class="sale-price">$150</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Men\'s Leather Jacket', 150)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-58%</div>
+                        <div class="product-image">🧢</div>
+                        <h3 class="product-name">Baseball Cap Collection</h3>
+                        <p class="product-description">Set of 2 adjustable caps</p>
+                        <div class="price-container">
+                            <span class="original-price">$48</span>
+                            <span class="sale-price">$20</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Baseball Cap Collection', 20)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-65%</div>
+                        <div class="product-image">👟</div>
+                        <h3 class="product-name">Men's Running Sneakers</h3>
+                        <p class="product-description">Comfortable athletic shoes</p>
+                        <div class="price-container">
+                            <span class="original-price">$130</span>
+                            <span class="sale-price">$46</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Men\'s Running Sneakers', 46)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-52%</div>
+                        <div class="product-image">🩳</div>
+                        <h3 class="product-name">Men's Cargo Shorts</h3>
+                        <p class="product-description">Cotton blend summer shorts</p>
+                        <div class="price-container">
+                            <span class="original-price">$55</span>
+                            <span class="sale-price">$26</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Men\'s Cargo Shorts', 26)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Women's Clothing -->
+            <div class="clothing-subsection" id="womens">
+                <h3 class="subsection-title">👗 Women's Collection</h3>
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="badge">-65%</div>
+                        <div class="product-image">👗</div>
+                        <h3 class="product-name">Floral Summer Dress</h3>
+                        <p class="product-description">Lightweight and breathable fabric</p>
+                        <div class="price-container">
+                            <span class="original-price">$120</span>
+                            <span class="sale-price">$42</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Floral Summer Dress', 42)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-60%</div>
+                        <div class="product-image">👚</div>
+                        <h3 class="product-name">Women's Blouse</h3>
+                        <p class="product-description">Elegant silk blend top</p>
+                        <div class="price-container">
+                            <span class="original-price">$78</span>
+                            <span class="sale-price">$31</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Women\'s Blouse', 31)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-55%</div>
+                        <div class="product-image">👠</div>
+                        <h3 class="product-name">High Heel Pumps</h3>
+                        <p class="product-description">Classic black leather heels</p>
+                        <div class="price-container">
+                            <span class="original-price">$95</span>
+                            <span class="sale-price">$43</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('High Heel Pumps', 43)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-62%</div>
+                        <div class="product-image">👖</div>
+                        <h3 class="product-name">Women's Skinny Jeans</h3>
+                        <p class="product-description">High-waist stretch denim</p>
+                        <div class="price-container">
+                            <span class="original-price">$85</span>
+                            <span class="sale-price">$32</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Women\'s Skinny Jeans', 32)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-58%</div>
+                        <div class="product-image">🧥</div>
+                        <h3 class="product-name">Women's Winter Coat</h3>
+                        <p class="product-description">Warm wool blend coat</p>
+                        <div class="price-container">
+                            <span class="original-price">$199</span>
+                            <span class="sale-price">$84</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Women\'s Winter Coat', 84)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-70%</div>
+                        <div class="product-image">👜</div>
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <p class="product-description">Faux leather shoulder bag</p>
+                        <div class="price-container">
+                            <span class="original-price">$150</span>
+                            <span class="sale-price">$45</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Designer Handbag', 45)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kids' Clothing -->
+            <div class="clothing-subsection" id="kids">
+                <h3 class="subsection-title">👶 Kids' Collection</h3>
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="badge">-65%</div>
+                        <div class="product-image">👕</div>
+                        <h3 class="product-name">Kids' Graphic T-Shirts</h3>
+                        <p class="product-description">Pack of 5 fun printed tees</p>
+                        <div class="price-container">
+                            <span class="original-price">$60</span>
+                            <span class="sale-price">$21</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Kids\' Graphic T-Shirts', 21)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-60%</div>
+                        <div class="product-image">👗</div>
+                        <h3 class="product-name">Girls' Party Dress</h3>
+                        <p class="product-description">Beautiful princess-style dress</p>
+                        <div class="price-container">
+                            <span class="original-price">$75</span>
+                            <span class="sale-price">$30</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Girls\' Party Dress', 30)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-55%</div>
+                        <div class="product-image">👖</div>
+                        <h3 class="product-name">Boys' Denim Jeans</h3>
+                        <p class="product-description">Durable kids' denim pants</p>
+                        <div class="price-container">
+                            <span class="original-price">$45</span>
+                            <span class="sale-price">$20</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Boys\' Denim Jeans', 20)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-68%</div>
+                        <div class="product-image">👟</div>
+                        <h3 class="product-name">Kids' Sneakers</h3>
+                        <p class="product-description">Light-up athletic shoes</p>
+                        <div class="price-container">
+                            <span class="original-price">$65</span>
+                            <span class="sale-price">$21</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Kids\' Sneakers', 21)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-62%</div>
+                        <div class="product-image">🧥</div>
+                        <h3 class="product-name">Kids' Hoodie</h3>
+                        <p class="product-description">Soft fleece zip-up hoodie</p>
+                        <div class="price-container">
+                            <span class="original-price">$50</span>
+                            <span class="sale-price">$19</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Kids\' Hoodie', 19)">Add to Cart</button>
+                    </div>
+
+                    <div class="deal-card">
+                        <div class="badge">-58%</div>
+                        <div class="product-image">🎒</div>
+                        <h3 class="product-name">Kids' Backpack</h3>
+                        <p class="product-description">Colorful school backpack</p>
+                        <div class="price-container">
+                            <span class="original-price">$42</span>
+                            <span class="sale-price">$18</span>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Kids\' Backpack', 18)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Category Links -->
+    <section class="quick-categories-section">
+        <div class="container">
+            <h2 class="section-title">🏷️ Quick Shop</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="scrollToSection('skincare')">
+                    <div class="category-icon">✨</div>
+                    <h3>Skincare</h3>
+                </div>
+                <div class="category-card" onclick="scrollToSection('homedecor')">
+                    <div class="category-icon">🏡</div>
+                    <h3>Home Decor</h3>
+                </div>
+                <div class="category-card" onclick="scrollToSection('clothing')">
+                    <div class="category-icon">👗</div>
+                    <h3>Clothing</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Returns & Orders Section -->
+    <section class="returns-orders-section" id="returns-orders">
+        <div class="container">
+            <h2 class="section-title">📦 Returns & Orders</h2>
+            <p class="category-subtitle">Track your orders and manage returns easily</p>
+
+            <div class="returns-orders-grid">
+                <!-- Track Order Card -->
+                <div class="service-card">
+                    <div class="service-icon">📍</div>
+                    <h3>Track Your Order</h3>
+                    <p>Enter your order number to track your package</p>
+                    <form class="track-order-form" onsubmit="trackOrder(event)">
+                        <input type="text" placeholder="Order Number (e.g., ORD-12345)" required>
+                        <button type="submit">Track Order</button>
+                    </form>
+                    <div class="order-status" id="orderStatus"></div>
+                </div>
+
+                <!-- My Orders Card -->
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>My Orders</h3>
+                    <p>View all your recent orders</p>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-info">
+                                <strong>Order #ORD-12345</strong>
+                                <span>2 items • $85.00</span>
+                            </div>
+                            <span class="order-badge delivered">Delivered</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <strong>Order #ORD-12344</strong>
+                                <span>1 item • $42.00</span>
+                            </div>
+                            <span class="order-badge shipped">Shipped</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <strong>Order #ORD-12343</strong>
+                                <span>3 items • $127.00</span>
+                            </div>
+                            <span class="order-badge processing">Processing</span>
+                        </div>
+                    </div>
+                    <button class="view-all-btn">View All Orders</button>
+                </div>
+
+                <!-- Returns Card -->
+                <div class="service-card">
+                    <div class="service-icon">↩️</div>
+                    <h3>Return an Item</h3>
+                    <p>Easy 30-day return policy</p>
+                    <form class="return-form" onsubmit="initiateReturn(event)">
+                        <input type="text" placeholder="Order Number" required>
+                        <select required>
+                            <option value="">Select Reason</option>
+                            <option value="defective">Defective Product</option>
+                            <option value="wrong">Wrong Item Received</option>
+                            <option value="size">Wrong Size/Color</option>
+                            <option value="quality">Quality Issues</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <button type="submit">Start Return</button>
+                    </form>
+                </div>
+
+                <!-- Customer Support Card -->
+                <div class="service-card">
+                    <div class="service-icon">💬</div>
+                    <h3>Customer Support</h3>
+                    <p>We're here to help you</p>
+                    <div class="support-options">
+                        <a href="#" class="support-link">📧 Email Support</a>
+                        <a href="#" class="support-link">📞 Call: 1-800-MEGA-SALE</a>
+                        <a href="#" class="support-link">💭 Live Chat</a>
+                        <a href="#" class="support-link">❓ FAQ</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return Policy Info -->
+            <div class="policy-info">
+                <h3>Our Return Policy</h3>
+                <div class="policy-grid">
+                    <div class="policy-item">
+                        <strong>✓ 30-Day Returns</strong>
+                        <p>Return items within 30 days of delivery</p>
+                    </div>
+                    <div class="policy-item">
+                        <strong>✓ Free Return Shipping</strong>
+                        <p>We cover the return shipping costs</p>
+                    </div>
+                    <div class="policy-item">
+                        <strong>✓ Quick Refunds</strong>
+                        <p>Refunds processed within 5-7 business days</p>
+                    </div>
+                    <div class="policy-item">
+                        <strong>✓ Easy Process</strong>
+                        <p>Simple online return initiation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section" id="contact">
+        <div class="container">
+            <h2>📧 Subscribe to Our Newsletter</h2>
+            <p>Get exclusive deals and early access to sales!</p>
+            <form class="newsletter-form" onsubmit="return subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Your trusted destination for amazing deals and quality products.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#deals">Deals</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: support@megasale.com</p>
+                    <p>Phone: 1-800-MEGA-SALE</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MEGA SALE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
