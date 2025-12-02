@@ -35,6 +35,71 @@
             </ul>
 
             <div class="nav-actions">
+                <div class="language-menu-wrapper">
+                    <button class="language-menu-btn" onclick="toggleLanguageDropdown()">
+                        <span class="current-flag" id="currentFlag">🇺🇸</span>
+                        <span class="lang-code">EN</span>
+                        <span class="dropdown-arrow">▾</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-dropdown-header">
+                            <h4>Select Language</h4>
+                        </div>
+                        <div class="language-dropdown-list">
+                            <button class="lang-option active" onclick="selectLanguage('en', '🇺🇸', 'EN', 'English')">
+                                <span class="flag">🇺🇸</span>
+                                <span class="lang-name">English</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('es', '🇪🇸', 'ES', 'Español')">
+                                <span class="flag">🇪🇸</span>
+                                <span class="lang-name">Español</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('fr', '🇫🇷', 'FR', 'Français')">
+                                <span class="flag">🇫🇷</span>
+                                <span class="lang-name">Français</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('de', '🇩🇪', 'DE', 'Deutsch')">
+                                <span class="flag">🇩🇪</span>
+                                <span class="lang-name">Deutsch</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('it', '🇮🇹', 'IT', 'Italiano')">
+                                <span class="flag">🇮🇹</span>
+                                <span class="lang-name">Italiano</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('pt', '🇵🇹', 'PT', 'Português')">
+                                <span class="flag">🇵🇹</span>
+                                <span class="lang-name">Português</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('zh', '🇨🇳', 'ZH', '中文')">
+                                <span class="flag">🇨🇳</span>
+                                <span class="lang-name">中文</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('ja', '🇯🇵', 'JA', '日本語')">
+                                <span class="flag">🇯🇵</span>
+                                <span class="lang-name">日本語</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('ko', '🇰🇷', 'KO', '한국어')">
+                                <span class="flag">🇰🇷</span>
+                                <span class="lang-name">한국어</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('ar', '🇸🇦', 'AR', 'العربية')">
+                                <span class="flag">🇸🇦</span>
+                                <span class="lang-name">العربية</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('hi', '🇮🇳', 'HI', 'हिन्दी')">
+                                <span class="flag">🇮🇳</span>
+                                <span class="lang-name">हिन्दी</span>
+                            </button>
+                            <button class="lang-option" onclick="selectLanguage('ru', '🇷🇺', 'RU', 'Русский')">
+                                <span class="flag">🇷🇺</span>
+                                <span class="lang-name">Русский</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <span>☰</span>
+                </div>
                 <div class="cart-icon">
                     <span>🛒</span>
                     <span class="cart-count">0</span>
@@ -42,6 +107,141 @@
             </div>
         </div>
     </nav>
+
+    <!-- Customer Care Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>Menu</h3>
+            <button class="close-menu" onclick="toggleMenu()">✕</button>
+        </div>
+        <div class="side-menu-content">
+            <!-- Shop Categories Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">🛍️ Shop by Category</h4>
+                <ul class="menu-list">
+                    <li><a href="#skincare" onclick="scrollToSection('skincare'); toggleMenu();">✨ Skincare</a></li>
+                    <li><a href="#homedecor" onclick="scrollToSection('homedecor'); toggleMenu();">🏡 Home Decor</a></li>
+                    <li><a href="#clothing" onclick="scrollToSection('clothing'); toggleMenu();">👗 All Clothing</a></li>
+                    <li><a href="#mens" onclick="scrollToSubsection('mens'); toggleMenu();">👔 Men's Clothing</a></li>
+                    <li><a href="#womens" onclick="scrollToSubsection('womens'); toggleMenu();">👗 Women's Clothing</a></li>
+                    <li><a href="#kids" onclick="scrollToSubsection('kids'); toggleMenu();">👶 Kids' Clothing</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">👤 Customer Care</h4>
+                <ul class="menu-list">
+                    <li><a href="#" onclick="showNotification('Customer Support: Call 1-800-MEGA-SALE'); return false;">📞 Contact Support</a></li>
+                    <li><a href="#" onclick="showNotification('Live Chat coming soon!'); return false;">💬 Live Chat</a></li>
+                    <li><a href="#returns-orders" onclick="scrollToSection('returns-orders'); toggleMenu();">📦 Track Orders</a></li>
+                    <li><a href="#returns-orders" onclick="scrollToSection('returns-orders'); toggleMenu();">↩️ Returns</a></li>
+                    <li><a href="#" onclick="showNotification('FAQ page coming soon!'); return false;">❓ FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Email & Contact Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">✉️ Email & Contact</h4>
+                <ul class="menu-list">
+                    <li><a href="mailto:support@megasale.com">📧 Email Support</a></li>
+                    <li><a href="#contact" onclick="toggleMenu()">📬 Newsletter</a></li>
+                    <li><a href="#" onclick="showNotification('Feedback form coming soon!'); return false;">📝 Send Feedback</a></li>
+                </ul>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">🔔 Notifications</h4>
+                <div class="notification-item">
+                    <span class="notification-badge new">New</span>
+                    <p>Flash Sale ends in 3 days!</p>
+                    <small>2 hours ago</small>
+                </div>
+                <div class="notification-item">
+                    <span class="notification-badge">Info</span>
+                    <p>Free shipping on orders over $50</p>
+                    <small>1 day ago</small>
+                </div>
+                <div class="notification-item">
+                    <span class="notification-badge">Info</span>
+                    <p>New arrivals in skincare section</p>
+                    <small>2 days ago</small>
+                </div>
+                <button class="view-all-notifications">View All Notifications</button>
+            </div>
+
+            <!-- Account Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">⚙️ Account</h4>
+                <ul class="menu-list">
+                    <li><a href="#" onclick="showNotification('Login feature coming soon!'); return false;">👤 Login / Sign Up</a></li>
+                    <li><a href="#" onclick="showNotification('Profile page coming soon!'); return false;">📋 My Profile</a></li>
+                    <li><a href="#" onclick="showNotification('Wishlist feature coming soon!'); return false;">❤️ Wishlist</a></li>
+                    <li><a href="#" onclick="showNotification('Settings page coming soon!'); return false;">⚙️ Settings</a></li>
+                </ul>
+            </div>
+
+            <!-- Language Selection Section -->
+            <div class="menu-section">
+                <h4 class="menu-section-title">🌍 Language / Region</h4>
+                <div class="language-grid">
+                    <button class="language-btn active" onclick="changeLanguage('en', 'English')">
+                        <span class="flag">🇺🇸</span>
+                        <span class="lang-text">English</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('es', 'Español')">
+                        <span class="flag">🇪🇸</span>
+                        <span class="lang-text">Español</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('fr', 'Français')">
+                        <span class="flag">🇫🇷</span>
+                        <span class="lang-text">Français</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('de', 'Deutsch')">
+                        <span class="flag">🇩🇪</span>
+                        <span class="lang-text">Deutsch</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('it', 'Italiano')">
+                        <span class="flag">🇮🇹</span>
+                        <span class="lang-text">Italiano</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('pt', 'Português')">
+                        <span class="flag">🇵🇹</span>
+                        <span class="lang-text">Português</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('zh', '中文')">
+                        <span class="flag">🇨🇳</span>
+                        <span class="lang-text">中文</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('ja', '日本語')">
+                        <span class="flag">🇯🇵</span>
+                        <span class="lang-text">日本語</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('ko', '한국어')">
+                        <span class="flag">🇰🇷</span>
+                        <span class="lang-text">한국어</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('ar', 'العربية')">
+                        <span class="flag">🇸🇦</span>
+                        <span class="lang-text">العربية</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('hi', 'हिन्दी')">
+                        <span class="flag">🇮🇳</span>
+                        <span class="lang-text">हिन्दी</span>
+                    </button>
+                    <button class="language-btn" onclick="changeLanguage('ru', 'Русский')">
+                        <span class="flag">🇷🇺</span>
+                        <span class="lang-text">Русский</span>
+                    </button>
+                </div>
+                <p class="current-language">Current: <strong id="currentLang">English (US)</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
     <!-- Search Results Overlay -->
     <div class="search-overlay" id="searchOverlay">
@@ -51,6 +251,29 @@
                 <button class="close-search" onclick="closeSearch()">✕</button>
             </div>
             <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal-container">
+            <div class="cart-modal-header">
+                <h2>🛒 Shopping Cart</h2>
+                <button class="close-cart" onclick="closeCart()">✕</button>
+            </div>
+            <div class="cart-modal-body">
+                <div id="cartItemsContainer"></div>
+            </div>
+            <div class="cart-modal-footer">
+                <div class="cart-total">
+                    <h3>Total:</h3>
+                    <h3 class="total-amount">$<span id="cartTotal">0.00</span></h3>
+                </div>
+                <div class="cart-actions">
+                    <button class="continue-shopping-btn" onclick="closeCart()">Continue Shopping</button>
+                    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1,5 +1,6 @@
 // Cart functionality
 let cartCount = 0;
+let cartItems = [];
 
 // All products data for search
 const allProducts = [
@@ -42,8 +43,22 @@ const allProducts = [
 
 // Function to add items to cart
 function addToCart(productName, price) {
+    // Check if item already exists in cart
+    const existingItem = cartItems.find(item => item.name === productName);
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cartItems.push({
+            name: productName,
+            price: price,
+            quantity: 1
+        });
+    }
+
     cartCount++;
     updateCartCount();
+    saveCartToStorage();
     showNotification(`${productName} added to cart! ($${price})`);
 }
 
@@ -55,6 +70,130 @@ function updateCartCount() {
     setTimeout(() => {
         cartCountElement.style.animation = '';
     }, 300);
+}
+
+// Save cart to localStorage
+function saveCartToStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    localStorage.setItem('cartCount', cartCount);
+}
+
+// Load cart from localStorage
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('cartItems');
+    const savedCount = localStorage.getItem('cartCount');
+
+    if (savedCart) {
+        cartItems = JSON.parse(savedCart);
+    }
+    if (savedCount) {
+        cartCount = parseInt(savedCount);
+        updateCartCount();
+    }
+}
+
+// Remove item from cart
+function removeFromCart(productName) {
+    const itemIndex = cartItems.findIndex(item => item.name === productName);
+
+    if (itemIndex > -1) {
+        const item = cartItems[itemIndex];
+        cartCount -= item.quantity;
+        cartItems.splice(itemIndex, 1);
+        updateCartCount();
+        saveCartToStorage();
+        displayCart();
+        showNotification(`${productName} removed from cart`);
+    }
+}
+
+// Update item quantity
+function updateQuantity(productName, change) {
+    const item = cartItems.find(item => item.name === productName);
+
+    if (item) {
+        const newQuantity = item.quantity + change;
+
+        if (newQuantity <= 0) {
+            removeFromCart(productName);
+        } else {
+            item.quantity = newQuantity;
+            cartCount += change;
+            updateCartCount();
+            saveCartToStorage();
+            displayCart();
+        }
+    }
+}
+
+// Calculate cart total
+function calculateCartTotal() {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
+// Display cart modal
+function displayCart() {
+    const cartModal = document.getElementById('cartModal');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart">
+                <p>🛒 Your cart is empty</p>
+                <p>Start shopping to add items!</p>
+            </div>
+        `;
+        document.getElementById('cartTotal').textContent = '0.00';
+    } else {
+        cartItemsContainer.innerHTML = cartItems.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <p class="cart-item-price">$${item.price} each</p>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                    <span class="qty-display">${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                </div>
+                <div class="cart-item-total">
+                    <p>$${(item.price * item.quantity).toFixed(2)}</p>
+                    <button class="remove-btn" onclick="removeFromCart('${item.name}')">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('cartTotal').textContent = calculateCartTotal().toFixed(2);
+    }
+
+    cartModal.style.display = 'flex';
+}
+
+// Close cart modal
+function closeCart() {
+    const cartModal = document.getElementById('cartModal');
+    cartModal.style.display = 'none';
+}
+
+// Checkout function
+function checkout() {
+    if (cartItems.length === 0) {
+        showNotification('Your cart is empty!');
+        return;
+    }
+
+    const total = calculateCartTotal();
+    showNotification(`Processing checkout for $${total.toFixed(2)}... (Demo mode)`);
+
+    // In a real app, this would redirect to a payment page
+    setTimeout(() => {
+        showNotification('Order placed successfully! 🎉');
+        cartItems = [];
+        cartCount = 0;
+        updateCartCount();
+        saveCartToStorage();
+        closeCart();
+    }, 2000);
 }
 
 // Show notification
@@ -139,8 +278,18 @@ function subscribeNewsletter(event) {
 
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
+    // Load saved cart
+    loadCartFromStorage();
+
     // Initialize countdown
     initCountdown();
+
+    // Add click handler to cart icon
+    const cartIcon = document.querySelector('.cart-icon');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', displayCart);
+        cartIcon.style.cursor = 'pointer';
+    }
 
     // Smooth scroll
     const navLinks = document.querySelectorAll('.nav-links a');
@@ -381,6 +530,166 @@ function initiateReturn(event) {
     showNotification(`Return initiated for order ${orderNumber}. You will receive a confirmation email shortly.`);
     event.target.reset();
 }
+
+// Toggle Side Menu
+function toggleMenu() {
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    sideMenu.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+}
+
+// Toggle Language Dropdown in Navbar
+function toggleLanguageDropdown() {
+    const dropdown = document.getElementById('languageDropdown');
+    dropdown.classList.toggle('active');
+
+    // Close dropdown when clicking outside
+    if (dropdown.classList.contains('active')) {
+        document.addEventListener('click', closeLanguageDropdownOutside);
+    } else {
+        document.removeEventListener('click', closeLanguageDropdownOutside);
+    }
+}
+
+function closeLanguageDropdownOutside(event) {
+    const dropdown = document.getElementById('languageDropdown');
+    const menuBtn = document.querySelector('.language-menu-btn');
+
+    if (!dropdown.contains(event.target) && !menuBtn.contains(event.target)) {
+        dropdown.classList.remove('active');
+        document.removeEventListener('click', closeLanguageDropdownOutside);
+    }
+}
+
+// Select Language from Navbar Dropdown
+function selectLanguage(langCode, flag, code, langName) {
+    // Update navbar button
+    document.getElementById('currentFlag').textContent = flag;
+    document.querySelector('.lang-code').textContent = code;
+
+    // Remove active class from all options
+    const allOptions = document.querySelectorAll('.lang-option');
+    allOptions.forEach(opt => opt.classList.remove('active'));
+
+    // Add active class to selected option
+    event.target.closest('.lang-option').classList.add('active');
+
+    // Close dropdown
+    document.getElementById('languageDropdown').classList.remove('active');
+    document.removeEventListener('click', closeLanguageDropdownOutside);
+
+    // Change font based on language
+    applyLanguageFont(langCode);
+
+    // Show notification
+    showNotification(`Language changed to ${langName}`);
+
+    // Store language preference
+    localStorage.setItem('preferredLanguage', langCode);
+    localStorage.setItem('preferredFlag', flag);
+    localStorage.setItem('preferredCode', code);
+    localStorage.setItem('preferredLangName', langName);
+}
+
+// Apply appropriate font for selected language
+function applyLanguageFont(langCode) {
+    const fontMap = {
+        'en': "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        'es': "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        'fr': "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+        'de': "'Segoe UI', 'Roboto', Arial, sans-serif",
+        'it': "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+        'pt': "'Segoe UI', 'Roboto', Arial, sans-serif",
+        'zh': "'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'Hiragino Sans GB', 'STHeiti', 'WenQuanYi Micro Hei', sans-serif",
+        'ja': "'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'Meiryo', 'メイリオ', 'MS PGothic', sans-serif",
+        'ko': "'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif",
+        'ar': "'Tahoma', 'Arial', 'Segoe UI', 'Geeza Pro', 'Traditional Arabic', sans-serif",
+        'hi': "'Noto Sans Devanagari', 'Mangal', 'Kokila', 'Devanagari MT', sans-serif",
+        'ru': "'Segoe UI', 'Roboto', 'Arial', 'Helvetica Neue', sans-serif"
+    };
+
+    const selectedFont = fontMap[langCode] || fontMap['en'];
+    document.body.style.fontFamily = selectedFont;
+
+    // Store font preference
+    localStorage.setItem('preferredFont', selectedFont);
+
+    // Apply RTL direction for Arabic
+    if (langCode === 'ar') {
+        document.body.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('dir', 'rtl');
+    } else {
+        document.body.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('dir', 'ltr');
+    }
+}
+
+// Change Language (for side menu)
+function changeLanguage(langCode, langName) {
+    // Remove active class from all language buttons
+    const allLangBtns = document.querySelectorAll('.language-btn');
+    allLangBtns.forEach(btn => btn.classList.remove('active'));
+
+    // Add active class to selected button
+    event.target.closest('.language-btn').classList.add('active');
+
+    // Update current language display
+    const currentLangElement = document.getElementById('currentLang');
+    const languageMap = {
+        'en': 'English (US)',
+        'es': 'Español (Spain)',
+        'fr': 'Français (France)',
+        'de': 'Deutsch (Germany)',
+        'it': 'Italiano (Italy)',
+        'pt': 'Português (Portugal)',
+        'zh': '中文 (China)',
+        'ja': '日本語 (Japan)',
+        'ko': '한국어 (Korea)',
+        'ar': 'العربية (Saudi Arabia)',
+        'hi': 'हिन्दी (India)',
+        'ru': 'Русский (Russia)'
+    };
+
+    currentLangElement.textContent = languageMap[langCode] || langName;
+
+    // Change font based on language
+    applyLanguageFont(langCode);
+
+    // Show notification
+    showNotification(`Language changed to ${langName}`);
+
+    // Store language preference (in a real app, this would save to backend/localStorage)
+    localStorage.setItem('preferredLanguage', langCode);
+}
+
+// Load saved language preference on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    const savedFont = localStorage.getItem('preferredFont');
+    const savedFlag = localStorage.getItem('preferredFlag');
+    const savedCode = localStorage.getItem('preferredCode');
+
+    if (savedLang && savedFont) {
+        // Apply saved font
+        document.body.style.fontFamily = savedFont;
+
+        // Apply RTL if Arabic
+        if (savedLang === 'ar') {
+            document.body.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('dir', 'rtl');
+        }
+
+        // Update navbar button if saved
+        if (savedFlag && savedCode) {
+            const flagElement = document.getElementById('currentFlag');
+            const codeElement = document.querySelector('.lang-code');
+            if (flagElement) flagElement.textContent = savedFlag;
+            if (codeElement) codeElement.textContent = savedCode;
+        }
+    }
+});
 
 // Add CSS for animations
 const style = document.createElement('style');
